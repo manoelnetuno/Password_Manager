@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 
-function Form() {
+interface FormProps {
+  onCancel: () => void;
+}
+
+function Form({ onCancel }: FormProps) {
   const [serviceName, setServiceName] = useState('');
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
@@ -14,7 +18,7 @@ function Form() {
   };
 
   const handleCancel = () => {
-    console.log('');
+    onCancel();
   };
 
   return (
