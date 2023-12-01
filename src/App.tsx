@@ -21,6 +21,11 @@ function App() {
     setServices([...services, service]);
     handleHideForm();
   };
+  const [HideSenha, setHideSenha] = useState(false);
+
+  const handleTogglePasswords = () => {
+    setHideSenha(!HideSenha);
+  };
   return (
     <>
       <div>
@@ -37,10 +42,19 @@ function App() {
         ) : (
           <button onClick={ handleShowForm }>Cadastrar nova senha</button>
         )}
+        <label>
+          Esconder senhas
+          <input
+            type="checkbox"
+            checked={ HideSenha }
+            onChange={ handleTogglePasswords }
+          />
+        </label>
         {services.length === 0 ? (<p>Nenhuma senha cadastrada</p>) : (
           services.map((password, index) => (<Servicelist
             setServices={ setServices }
             key={ index }
+            HideSenha={ HideSenha }
             Sen={ password }
           />)))}
       </div>
