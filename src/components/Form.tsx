@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 
-interface FormProps {
-  onCancel: () => void;
-}
 interface Service {
   serviceName: string;
   login: string;
   password: string;
   url: string;
+}
+
+interface FormProps {
+  onCancel: () => void;
 }
 
 function Form({ onCancel }: FormProps) {
