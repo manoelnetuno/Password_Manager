@@ -9,13 +9,22 @@ function Form({ onCancel }: FormProps) {
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
   const [url, setUrl] = useState('');
-  const handleRegister = () => {
-    console.log('Nome do Serviço:', serviceName);
-    console.log('Login:', login);
-    console.log('Senha:', password);
-    console.log('URL:', url);
-  };
+  const [services, setServices] = useState<any[]>([]);
 
+  const handleRegister = () => {
+    const newService = {
+      serviceName,
+      login,
+      password,
+      url,
+    };
+
+    setServices([...services, newService]);
+    setServiceName('');
+    setLogin('');
+    setPassword('');
+    setUrl('');
+  };
   const handleCancel = () => {
     onCancel();
   };
@@ -72,6 +81,29 @@ function Form({ onCancel }: FormProps) {
       </div>
       <div className={ PasswordValidation(/[^a-zA-Z0-9]/.test(password)) }>
         Possuir algum caractere especial
+      </div>
+      <div>
+        {services.length === 0 ? (
+          <p>Nenhuma senha cadastrada</p>
+        ) : (
+          <ul>
+            {services.map((service, index) => (
+              <li key={ index }>
+                <strong>{service.serviceName}</strong>
+                Login:
+                {' '}
+                {service.login}
+                Senha:
+                {' '}
+                {service.password}
+                <a href={ service.url } target="_blank" rel="noopener noreferrer">
+                  Ir para o serviço
+                </a>
+
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     </div>
   );
