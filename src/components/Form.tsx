@@ -1,35 +1,27 @@
 import React, { useState } from 'react';
 
-interface Service {
-  serviceName: string;
-  login: string;
-  password: string;
-  url: string;
-}
-
 interface FormProps {
   onCancel: () => void;
 }
-
 function Form({ onCancel }: FormProps) {
   const [serviceName, setServiceName] = useState('');
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
   const [url, setUrl] = useState('');
-  const [services, setServices] = useState<Service[]>([]);
-  const handleRegister = () => {
-    const newService = {
-      serviceName,
-      login,
-      password,
-      url,
-    };
 
-    setServices([...services, newService]);
-    setServiceName('');
-    setLogin('');
-    setPassword('');
-    setUrl('');
+  const BottomDisabled = !serviceName
+  || !login
+  || password.length < 8
+  || password.length > 16
+  || !/[a-zA-Z]/.test(password)
+  || !/\d/.test(password)
+  || !/[^a-zA-Z0-9]/.test(password);
+
+  const handleRegister = () => {
+    console.log('Nome do Serviço:', serviceName);
+    console.log('Login:', login);
+    console.log('Senha:', password);
+    console.log('URL:', url);
   };
   const handleCancel = () => {
     onCancel();
@@ -73,7 +65,7 @@ function Form({ onCancel }: FormProps) {
         />
       </label>
 
-      <button onClick={ handleRegister }>Cadastrar</button>
+      <button onClick={ handleRegister } disabled={ BottomDisabled }>Cadastrar</button>
       <button onClick={ handleCancel }>Cancelar</button>
 
       <div className={ PasswordValidation(password.length >= 8) }>
@@ -88,34 +80,7 @@ function Form({ onCancel }: FormProps) {
       <div className={ PasswordValidation(/[^a-zA-Z0-9]/.test(password)) }>
         Possuir algum caractere especial
       </div>
-      <div>
-        {services.length === 0 ? (
-          <p>Nenhuma senha cadastrada</p>
-        ) : (
-          <ul>
-            {services.map((service, index) => (
-              <li key={ index }>
-                <strong>{service.serviceName}</strong>
-                <br />
-                Login:
-                {' '}
-                {service.login}
-                <br />
-                Senha:
-                {' '}
-                {service.password}
-                <br />
-                <a href={ service.url } target="_blank" rel="noopener noreferrer">
-                  Ir para o serviço
-                </a>
-                <br />
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
     </div>
   );
 }
-
 export default Form;
