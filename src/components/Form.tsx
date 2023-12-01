@@ -3,14 +3,19 @@ import React, { useState } from 'react';
 interface FormProps {
   onCancel: () => void;
 }
+interface Service {
+  serviceName: string;
+  login: string;
+  password: string;
+  url: string;
+}
 
 function Form({ onCancel }: FormProps) {
   const [serviceName, setServiceName] = useState('');
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
   const [url, setUrl] = useState('');
-  const [services, setServices] = useState<any[]>([]);
-
+  const [services, setServices] = useState<Service[]>([]);
   const handleRegister = () => {
     const newService = {
       serviceName,
@@ -90,16 +95,19 @@ function Form({ onCancel }: FormProps) {
             {services.map((service, index) => (
               <li key={ index }>
                 <strong>{service.serviceName}</strong>
+                <br />
                 Login:
                 {' '}
                 {service.login}
+                <br />
                 Senha:
                 {' '}
                 {service.password}
+                <br />
                 <a href={ service.url } target="_blank" rel="noopener noreferrer">
                   Ir para o serviço
                 </a>
-
+                <br />
               </li>
             ))}
           </ul>
