@@ -24,7 +24,7 @@ function Form({ onCancel }: FormProps) {
   };
   return (
     <div>
-      <label htmlFor="nome-do-servico">
+      <label>
         Nome do serviço:
         <input
           type="text"
@@ -35,12 +35,12 @@ function Form({ onCancel }: FormProps) {
         />
       </label>
 
-      <label htmlFor="login">
+      <label>
         Login:
         <input type="text" value={ login } onChange={ (e) => setLogin(e.target.value) } />
       </label>
 
-      <label htmlFor="senha">
+      <label>
         Senha:
         <input
           type="password"
@@ -49,7 +49,7 @@ function Form({ onCancel }: FormProps) {
         />
       </label>
 
-      <label htmlFor="url">
+      <label>
         URL:
         <input
           type="text"
@@ -60,6 +60,7 @@ function Form({ onCancel }: FormProps) {
 
       <button onClick={ handleRegister }>Cadastrar</button>
       <button onClick={ handleCancel }>Cancelar</button>
+
       <div className={ PasswordValidation(password.length >= 8) }>
         Possuir 8 ou mais caracteres
       </div>
