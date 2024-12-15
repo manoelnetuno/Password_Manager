@@ -1,64 +1,71 @@
+import { useState } from 'react';
 import './App.css';
-import React, { useState } from 'react';
 import Form from './components/Form';
-import Servicelist from './components/Service';
+import RegPass from './components/RegPass';
+
+type ServicePropsType = {
+  serviceName: string;
+  login: string;
+  password: string;
+  URL: string;
+};
 
 function App() {
-  const [showForm, setShowForm] = useState(false);
-  const [services, setServices] = useState<{ serviceName: string,
-    login: string,
-    password: string,
-    url:string, }[]>([]);
-
-  const handleShowForm = () => {
-    setShowForm(true);
+  const removeService = (index: number) => {
+    const updatedServices = [...servicesData];
+    updatedServices.splice(index, 1);
+    setServicesData(updatedServices);
   };
 
-  const handleHideForm = () => {
-    setShowForm(false);
-  };
-  const handleRegisterService = (service: any) => {
-    setServices([...services, service]);
-    handleHideForm();
-  };
-  const [HideSenha, setHideSenha] = useState(false);
+  const [showForm, setShowForm] = useState<boolean>(false);
+  const [servicesData, setServicesData] = useState<ServicePropsType[]>([]);
+  const [hidePasswords, setHidePasswords] = useState<boolean>(false);
 
-  const handleTogglePasswords = () => {
-    setHideSenha(!HideSenha);
+  const toggleHidePasswords = () => {
+    setHidePasswords(!hidePasswords);
   };
+
   return (
     <>
-      <div>
-        <h1> Gerenciador de senhas </h1>
-      </div>
-      <div>
-        {showForm ? (
+      <header>
+        <h1>🔒 Gerenciador de senhas 🔒</h1>
+      </header>
+      <main>
+        { showForm ? (
           <Form
-            onCancel={ handleHideForm }
-            onRegister={ handleRegisterService }
-            services={ services }
-            setServicesList={ setServices }
-          />
-        ) : (
-          <button onClick={ handleShowForm }>Cadastrar nova senha</button>
-        )}
-        <label>
-          Esconder senhas
-          <input
-            type="checkbox"
-            checked={ HideSenha }
-            onChange={ handleTogglePasswords }
-          />
-        </label>
-        {services.length === 0 ? (<p>Nenhuma senha cadastrada</p>) : (
-          services.map((password, index) => (<Servicelist
-            setServices={ setServices }
-            key={ index }
-            HideSenha={ HideSenha }
-            Sen={ password }
-          />)))}
-      </div>
+            setShowForm={ setShowForm }
+            setServiceData={ setServicesData }
+            servicesData={ servicesData }
+          />) : (
+            <RegPass setShowForm={ setShowForm } />) }
+        {servicesData.length === 0 && <p>Nenhuma senha cadastrada</p>}
+        <input
+          type="checkbox"
+          id="hidePasswords"
+          checked={ hidePasswords }
+          onChange={ toggleHidePasswords }
+        />
+        <label htmlFor="hidePasswords">Esconder senhas</label>
+        <ul>
+          {servicesData.length > 0 && servicesData.map((service, index) => (
+            <li key={ index }>
+              <a href={ service.URL }>{`${service.serviceName}`}</a>
+              <p>{`Login: ${service.login}`}</p>
+              <p>{`Senha: ${hidePasswords ? '******' : service.password}`}</p>
+              <button
+                data-testid="remove-btn"
+                onClick={ () => {
+                  removeService(index);
+                } }
+              >
+                Remover
+              </button>
+            </li>
+          ))}
+        </ul>
+      </main>
     </>
   );
 }
+
 export default App;

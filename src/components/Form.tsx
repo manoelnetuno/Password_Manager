@@ -1,213 +1,128 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import Swal from 'sweetalert2';
+
+type ServicePropsType = {
+  serviceName: string;
+  login: string;
+  password: string;
+  URL: string;
+};
 
 type FormProps = {
-  onCancel: () => void;
-  onRegister: (data: {
-    serviceName: string;
-    login: string;
-    password: string;
-    url: string;
-  }) => void;
-  setServicesList: React.Dispatch<React.SetStateAction<{ serviceName: string,
-    login: string,
-    password: string,
-    url:string, }[]>>,
-  services: {
-    serviceName: string;
-    login: string;
-    password: string;
-    url: string;
-  }[];
+  setShowForm: React.Dispatch<React.SetStateAction<boolean>>;
+  setServiceData: React.Dispatch<React.SetStateAction<ServicePropsType[]>>;
+  servicesData: ServicePropsType[];
 };
-function Form({ onCancel, onRegister, services, setServicesList }: FormProps) {
+
+function Form({ setShowForm, setServiceData, servicesData }: FormProps) {
   const [serviceName, setServiceName] = useState('');
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
-  const [url, setUrl] = useState('');
-  const [hidePasswords, setHidePasswords] = useState(false);
-  const [submittedData, setSubmittedData] = useState<{
-    serviceName: string;
-    login: string;
-    password: string;
-    url: string;
-  } | null>(null);
+  const [URL, setURL] = useState('');
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  const BottomDisabled = !serviceName
-  || !login
-  || password.length < 8
-  || password.length > 16
-  || !/[a-zA-Z]/.test(password)
-  || !/\d/.test(password)
-  || !/[^a-zA-Z0-9]/.test(password);
-
-  const handleRegister = () => {
-    const displayedPassword = hidePasswords ? '******' : password;
-
-    const data = {
-      serviceName,
-      login,
-      password: displayedPassword,
-      url,
-    };
-
-    setSubmittedData(data);
-    onRegister(data);
+  const saveServiceData = () => {
+    const newServiceData = { serviceName, login, password, URL };
+    setServiceData([...servicesData, newServiceData]);
+    Swal.fire({
+      icon: 'success',
+      title: 'Serviço cadastrado com sucesso',
+      showConfirmButton: false,
+      timer: 1500,
+      timerProgressBar: true,
+    });
   };
 
-  const handleCancel = () => {
-    onCancel();
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
   };
-  const PasswordValidation = (condition: boolean) => {
-    return condition ? 'valid-password-check' : 'invalid-password-check';
-  };
-  const toggleHidePasswords = () => {
-    setHidePasswords(!hidePasswords);
-  };
+
+  const isButtonDisabled = !serviceName || !login
+   || password.length < 8
+   || password.length > 16
+   || !/\d/.test(password)
+   || !/[a-zA-Z]/.test(password)
+   || !/[^a-zA-Z0-9]/.test(password);
+
+  const isValidLength = password.length >= 8;
+  const isValidMaxLength = password.length <= 16;
+  const hasLettersAndNumbers = /[a-zA-Z]/.test(password) && /\d/.test(password);
+  const hasSpecialCharacter = /[^a-zA-Z0-9]/.test(password);
+
   return (
-    <div>
-      <label>
-        Nome do serviço:
-        <input
-          type="text"
-          value={ serviceName }
-          onChange={ (e) => {
-            setServiceName(e.target.value);
-          } }
-        />
-      </label>
-      <label>
-        Login:
-        <input type="text" value={ login } onChange={ (e) => setLogin(e.target.value) } />
-      </label>
-      <label>
-        Senha:
-        <input
-          type="password"
-          value={ password }
-          onChange={ (e) => setPassword(e.target.value) }
-        />
-      </label>
-      <label>
-        URL:
-        <input
-          type="text"
-          value={ url }
-          onChange={ (e) => setUrl(e.target.value) }
-        />
-      </label>
-      <label>
-        Esconder senhas
-        <input
-          type="checkbox"
-          checked={ hidePasswords }
-          onChange={ toggleHidePasswords }
-        />
-      </label>
+    <form>
+      <label htmlFor="serviceName">Nome do serviço</label>
+      <input
+        id="serviceName"
+        type="text"
+        value={ serviceName }
+        onChange={ (event) => setServiceName(event.target.value) }
+      />
+      <label htmlFor="login">Login</label>
+      <input
+        id="login"
+        type="text"
+        value={ login }
+        onChange={ (event) => setLogin(event.target.value) }
+      />
+      <label htmlFor="password">Senha</label>
+      <input
+        type={ showPassword ? 'text' : 'password' }
+        id="password"
+        value={ password }
+        onChange={ (event) => setPassword(event.target.value) }
+      />
       <button
-        onClick={ (e) => {
-          e.preventDefault();
-          setServicesList([...services, { serviceName, login, password, url }]);
-          handleRegister();
-        } }
-        disabled={ BottomDisabled }
+        type="button"
+        data-testid="show-hide-form-password"
+        onClick={ toggleShowPassword }
       >
-        Cadastrar
-
+        {showPassword ? 'Esconder' : 'Mostrar'}
       </button>
-      <button onClick={ handleCancel }>Cancelar</button>
-      {submittedData && (
-        <div>
-          <h2>Informações Cadastradas:</h2>
-          <p>
-            Nome do Serviço:
-            {' '}
-            {submittedData.serviceName}
-          </p>
-          <p>
-            Login:
-            {' '}
-            {submittedData.login}
-          </p>
-          <p>
-            Senha:
-            {' '}
-            {submittedData.password}
-          </p>
-          <p>
-            URL:
-            {' '}
-            {submittedData.url}
-          </p>
-        </div>
-      )}
-      {services.length > 0 && (
-        <div>
-          <h2>Serviços Cadastrados:</h2>
-          {services.map((service, index) => (
-            <div key={ index }>
-              <p>
-                Nome do Serviço:
-                {' '}
-                {service.serviceName}
-              </p>
-              <p>
-                Login:
-                {' '}
-                {service.login}
-              </p>
-              <p>
-                Senha:
-                {' '}
-                {service.password}
-              </p>
-              <p>
-                URL:
-                {' '}
-                {service.url}
-              </p>
-            </div>
-          ))}
-        </div>
-      )}
 
-      <div className={ PasswordValidation(password.length >= 8) }>
-        Possuir 8 ou mais caracteres
+      <div>
+        {isValidLength ? (
+          <p className="valid-password-check">Possuir 8 ou mais caracteres</p>
+        ) : (
+          <p className="invalid-password-check">Possuir 8 ou mais caracteres</p>
+        )}
+        {isValidMaxLength ? (
+          <p className="valid-password-check">Possuir até 16 caracteres</p>
+        ) : (
+          <p className="invalid-password-check">Possuir até 16 caracteres</p>
+        )}
+        {hasLettersAndNumbers ? (
+          <p className="valid-password-check">Possuir letras e números</p>
+        ) : (
+          <p className="invalid-password-check">Possuir letras e números</p>
+        )}
+        {hasSpecialCharacter ? (
+          <p className="valid-password-check">Possuir algum caractere especial</p>
+        ) : (
+          <p className="invalid-password-check">Possuir algum caractere especial</p>
+        )}
       </div>
-      <div className={ PasswordValidation(password.length <= 16) }>
-        Possuir até 16 caracteres
-      </div>
-      <div className={ PasswordValidation(/[a-zA-Z]/.test(password) && /\d/.test(password)) }>
-        Possuir letras e números
-      </div>
-      <div className={ PasswordValidation(/[^a-zA-Z0-9]/.test(password)) }>
-        Possuir algum caractere especial
-      </div>
-      {submittedData && (
-        <div>
-          <h2>Informações Cadastradas:</h2>
-          <p>
-            Nome do Serviço:
-            {' '}
-            {submittedData.serviceName}
-          </p>
-          <p>
-            Login:
-            {' '}
-            {submittedData.login}
-          </p>
-          <p>
-            Senha:
-            {' '}
-            {submittedData.password}
-          </p>
-          <p>
-            URL:
-            {' '}
-            {submittedData.url}
-          </p>
-        </div>
-      )}
-    </div>
+      <label htmlFor="URL">URL</label>
+      <input
+        id="URL"
+        type="text"
+        value={ URL }
+        onChange={ (event) => setURL(event.target.value) }
+      />
+      <button
+        disabled={ isButtonDisabled }
+        onClick={ () => {
+          saveServiceData();
+          setShowForm(false);
+        } }
+        type="button"
+        className='text-6xl'
+      >
+        Cadastrar Nova Senha
+      </button>
+      <button onClick={ () => setShowForm(false) }>Cancelar</button>
+    </form>
   );
 }
+
 export default Form;
