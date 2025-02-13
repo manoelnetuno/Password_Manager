@@ -10,7 +10,7 @@ body {
 
 /* Estilização do cabeçalho */
 header {
-    background-color: #007bff;
+    background-color: rgb(52, 85, 43);
     color: white;
     padding: 20px;
     text-align: center;
@@ -56,14 +56,10 @@ input[type="url"] {
     font-size: 16px;
 }
 
-input[type="checkbox"] {
-    margin-right: 5px;
-}
-
 /* Estilização do botão */
 button {
     padding: 10px;
-    background-color: #007bff;
+    background-color:rgb(52, 85, 43);
     color: white;
     border: none;
     border-radius: 4px;
@@ -73,7 +69,12 @@ button {
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: rgb(52, 85, 43);
+}
+
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
 }
 
 /* Estilização da lista de serviços */
@@ -93,13 +94,22 @@ li {
 }
 
 li a {
-    color: #007bff;
+    color: rgb(52, 85, 43);
     text-decoration: none;
     font-weight: bold;
 }
 
 li a:hover {
     text-decoration: underline;
+}
+
+/* Estilização das mensagens de validação */
+.valid-password-check {
+    color: #28a745; /* Verde */
+}
+
+.invalid-password-check {
+    color: #ff0000; /* Vermelho */
 }
 
 /* Estilização das mensagens */
@@ -112,20 +122,4 @@ p {
 label[for="hidePasswords"] {
     margin-left: 5px;
     font-size: 14px;
-}
-/* Estilização das mensagens de validação */
-.validation-message {
-    font-size: 14px;
-    margin-top: 5px;
-    transition: color 0.3s ease;
-}
-
-/* Mensagem de erro (vermelho) */
-.validation-error {
-    color: #ff0000; /* Vermelho */
-}
-
-/* Mensagem de sucesso (verde) */
-.validation-success {
-    color: #28a745; /* Verde */
 }

@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import './App.css';
+import Swal from 'sweetalert2';
 import Form from './components/Form';
 import RegPass from './components/RegPass';
+import './App.css'
 
 type ServicePropsType = {
   serviceName: string;
@@ -14,8 +15,6 @@ function App() {
   const [showForm, setShowForm] = useState<boolean>(false);
   const [servicesData, setServicesData] = useState<ServicePropsType[]>([]);
   const [hidePasswords, setHidePasswords] = useState<boolean>(false);
-  const [validationMessage, setValidationMessage] = useState<string>('');
-  const [isValid, setIsValid] = useState<boolean>(false);
 
   const removeService = (index: number) => {
     const updatedServices = [...servicesData];
@@ -25,16 +24,6 @@ function App() {
 
   const toggleHidePasswords = () => {
     setHidePasswords(!hidePasswords);
-  };
-
-  const validateForm = (serviceName: string, login: string, password: string, URL: string) => {
-    if (serviceName && login && password && URL) {
-      setValidationMessage('Todos os campos estão preenchidos!');
-      setIsValid(true);
-    } else {
-      setValidationMessage('Por favor, preencha todos os campos!');
-      setIsValid(false);
-    }
   };
 
   return (
@@ -48,15 +37,9 @@ function App() {
             setShowForm={setShowForm}
             setServiceData={setServicesData}
             servicesData={servicesData}
-            validateForm={validateForm} // Passando a função de validação
           />
         ) : (
           <RegPass setShowForm={setShowForm} />
-        )}
-        {validationMessage && (
-          <p className={`validation-message ${isValid ? 'validation-success' : 'validation-error'}`}>
-            {validationMessage}
-          </p>
         )}
         {servicesData.length === 0 && <p>Nenhuma senha cadastrada</p>}
         <input

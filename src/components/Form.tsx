@@ -12,7 +12,6 @@ type FormProps = {
   setShowForm: React.Dispatch<React.SetStateAction<boolean>>;
   setServiceData: React.Dispatch<React.SetStateAction<ServicePropsType[]>>;
   servicesData: ServicePropsType[];
-  validateForm: (serviceName: string, login: string, password: string, URL: string) => void; // Adicione esta linha
 };
 
 function Form({ setShowForm, setServiceData, servicesData }: FormProps) {
@@ -39,11 +38,11 @@ function Form({ setShowForm, setServiceData, servicesData }: FormProps) {
   };
 
   const isButtonDisabled = !serviceName || !login
-   || password.length < 8
-   || password.length > 16
-   || !/\d/.test(password)
-   || !/[a-zA-Z]/.test(password)
-   || !/[^a-zA-Z0-9]/.test(password);
+    || password.length < 8
+    || password.length > 16
+    || !/\d/.test(password)
+    || !/[a-zA-Z]/.test(password)
+    || !/[^a-zA-Z0-9]/.test(password);
 
   const isValidLength = password.length >= 8;
   const isValidMaxLength = password.length <= 16;
@@ -56,27 +55,27 @@ function Form({ setShowForm, setServiceData, servicesData }: FormProps) {
       <input
         id="serviceName"
         type="text"
-        value={ serviceName }
-        onChange={ (event) => setServiceName(event.target.value) }
+        value={serviceName}
+        onChange={(event) => setServiceName(event.target.value)}
       />
       <label htmlFor="login">Login</label>
       <input
         id="login"
         type="text"
-        value={ login }
-        onChange={ (event) => setLogin(event.target.value) }
+        value={login}
+        onChange={(event) => setLogin(event.target.value)}
       />
       <label htmlFor="password">Senha</label>
       <input
-        type={ showPassword ? 'text' : 'password' }
+        type={showPassword ? 'text' : 'password'}
         id="password"
-        value={ password }
-        onChange={ (event) => setPassword(event.target.value) }
+        value={password}
+        onChange={(event) => setPassword(event.target.value)}
       />
       <button
         type="button"
         data-testid="show-hide-form-password"
-        onClick={ toggleShowPassword }
+        onClick={toggleShowPassword}
       >
         {showPassword ? 'Esconder' : 'Mostrar'}
       </button>
@@ -107,21 +106,20 @@ function Form({ setShowForm, setServiceData, servicesData }: FormProps) {
       <input
         id="URL"
         type="text"
-        value={ URL }
-        onChange={ (event) => setURL(event.target.value) }
+        value={URL}
+        onChange={(event) => setURL(event.target.value)}
       />
       <button
-        disabled={ isButtonDisabled }
-        onClick={ () => {
+        disabled={isButtonDisabled}
+        onClick={() => {
           saveServiceData();
           setShowForm(false);
-        } }
+        }}
         type="button"
-        className='text-6xl'
       >
         Cadastrar Nova Senha
       </button>
-      <button onClick={ () => setShowForm(false) }>Cancelar</button>
+      <button onClick={() => setShowForm(false)}>Cancelar</button>
     </form>
   );
 }
