@@ -1,0 +1,115 @@
+/* App.css */
+
+/* Estilização do corpo */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilização do cabeçalho */
+header {
+    background-color: #007bff;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Estilização do título */
+h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+/* Estilização do conteúdo principal */
+main {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilização do formulário */
+form {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+/* Estilização dos rótulos */
+label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* Estilização das entradas */
+input[type="text"],
+input[type="password"],
+input[type="url"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+/* Estilização do botão */
+button {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Estilização da lista de serviços */
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+li a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+li a:hover {
+    text-decoration: underline;
+}
+
+/* Estilização das mensagens */
+p {
+    text-align: center;
+    color: #ff0000; /* Cor para mensagens de erro */
+}
+
+/* Estilização do rótulo do checkbox */
+label[for="hidePasswords"] {
+    margin-left: 5px;
+    font-size: 14px;
+}
