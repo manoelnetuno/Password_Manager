@@ -12,6 +12,7 @@ type FormProps = {
   setShowForm: React.Dispatch<React.SetStateAction<boolean>>;
   setServiceData: React.Dispatch<React.SetStateAction<ServicePropsType[]>>;
   servicesData: ServicePropsType[];
+  validateForm: (serviceName: string, login: string, password: string, URL: string) => void; // Adicione esta linha
 };
 
 function Form({ setShowForm, setServiceData, servicesData }: FormProps) {

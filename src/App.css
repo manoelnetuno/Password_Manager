@@ -113,3 +113,19 @@ label[for="hidePasswords"] {
     margin-left: 5px;
     font-size: 14px;
 }
+/* Estilização das mensagens de validação */
+.validation-message {
+    font-size: 14px;
+    margin-top: 5px;
+    transition: color 0.3s ease;
+}
+
+/* Mensagem de erro (vermelho) */
+.validation-error {
+    color: #ff0000; /* Vermelho */
+}
+
+/* Mensagem de sucesso (verde) */
+.validation-success {
+    color: #28a745; /* Verde */
+}
