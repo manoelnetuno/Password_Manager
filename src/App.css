@@ -58,8 +58,10 @@ input[type="url"] {
 
 /* Estilização do botão */
 button {
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
     padding: 10px;
-    background-color:rgb(52, 85, 43);
+    background-color:rgb(109, 167, 93);
     color: white;
     border: none;
     border-radius: 4px;
